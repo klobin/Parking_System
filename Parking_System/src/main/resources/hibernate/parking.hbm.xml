@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.parkingsys.vo" table="parking_master"
+		catalog="parking_system">
+		<id name="id" type="int">
+			<column name="ID" />
+			<generator class="identity" />
+		</id>
+		<property name="floor_id" type="int">
+			<column name="floor_id" length="10" not-null="true" unique="true" />
+		</property>
+		<property name="cap_bike" type="int">
+			<column name="cap_bike" length="20" not-null="true" unique="true" />
+		</property>
+		<property name="cap_car" type="int">
+			<column name="cap_car" length="20" not-null="true" unique="true" />
+		</property>
+		<property name="cap_HV" type="int">
+			<column name="cap_HV" length="20" not-null="true" unique="true" />
+		</property>
+	</class>
+</hibernate-mapping>
