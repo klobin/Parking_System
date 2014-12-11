@@ -25,7 +25,6 @@ public class ParkingSystemLauncher {
 			}
 			switch (i) {
 			case 1:
-				System.out.println("\nheloo !!!");
 				break;
 			case 7:
 				System.out.println("Thanks for parking your vehicle :)");
