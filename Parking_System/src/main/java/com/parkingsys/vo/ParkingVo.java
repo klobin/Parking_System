@@ -1,6 +1,6 @@
 package com.parkingsys.vo;
 
-public class Vo {
+public class ParkingVo {
 
 	private int floor_id;
 
@@ -42,7 +42,7 @@ public class Vo {
 		this.cap_heavyVehicle = cap_heavyVehicle;
 	}
 
-	public Vo(int floor_id, int cap_bike, int cap_car, int cap_heavyVehicle) {
+	public ParkingVo(int floor_id, int cap_bike, int cap_car, int cap_heavyVehicle) {
 		this.floor_id = floor_id;
 		this.cap_bike = cap_bike;
 		this.cap_car = cap_car;
