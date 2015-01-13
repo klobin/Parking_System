@@ -1,5 +1,7 @@
 package com.parkingsys.dao;
 
-public class ParkingDao {
+public interface ParkingDao {
+
+	void addFloor(int bike_count, int car_count, int hv_count);
 
 }
