@@ -7,6 +7,11 @@ public class Intermident_values {
 	private List vacant_bike_space;
 	private List vacant_car_space;
 	private List vacant_HV_space;
+	
+	public Intermident_values(){
+		
+	}
+	
 	public Intermident_values(int floor_no, List vacant_bike_space,
 			List vacant_car_space, List vacant_HV_space) {
 		super();

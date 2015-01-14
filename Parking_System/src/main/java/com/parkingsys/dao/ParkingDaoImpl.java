@@ -13,4 +13,9 @@ public class ParkingDaoImpl implements ParkingDao {
 		return null;
 	}
 
+	public void showList() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

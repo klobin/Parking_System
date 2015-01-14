@@ -12,4 +12,7 @@ public interface ParkingDao {
 	List<Intermident_values> getAvailibilty();
 
 
+	void showList();
+
+
 }
