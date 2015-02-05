@@ -30,8 +30,8 @@ public class Controller {
 		return returnList;
 	}
 
-	public List<Intermident_values> getAvailabity() {
-		List<Intermident_values> returnAvailabilty = parkingService.showAvailibity();
+	public List<Intermident_values> getAvailabity() throws Exception {
+		/*List<Intermident_values> returnAvailabilty = */parkingService.showAvailibity();
 		return null;
 	}
 }

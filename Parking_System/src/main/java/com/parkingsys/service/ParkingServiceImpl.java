@@ -2,44 +2,44 @@ package com.parkingsys.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.parkingsys.dao.ParkingDao;
 import com.parkingsys.dao.ParkingDaoImpl;
-import com.parkingsys.vo.Bike_master;
-import com.parkingsys.vo.Car_master;
-import com.parkingsys.vo.Heavy_vehicle;
 import com.parkingsys.vo.Intermident_values;
 import com.parkingsys.vo.ParkingMaster;
 
 public class ParkingServiceImpl implements ParkingService {
 
 	private ParkingDao parkingDao;
-	
+
 	private ParkingMaster parkingMaster = new ParkingMaster();
 	private ParkingMaster parkingMaster1 = new ParkingMaster();
 	List<Integer> list0 = new ArrayList<Integer>();
 	List<Integer> list1 = new ArrayList<Integer>();
 	List<Integer> list2 = new ArrayList<Integer>();
-	
-	
-	
+
+
+
 	private Intermident_values intermident_values = new Intermident_values();
-	
+
 	public ParkingServiceImpl() throws Exception{
 		init();
 	}
 	public void init() throws Exception {
 		parkingDao = new ParkingDaoImpl();
 	}
-	
-	public void addLevel(int bike_count, int car_count, int hv_count) {
-		
-		parkingDao.addFloor(bike_count,car_count,hv_count);
+
+	public void addLevel(int bike_count, int car_count, int hv_count) throws Exception {
+		int floor_to_added = 0 ;
+		int existing_floor_no = parkingDao.checkNoOffloors();
+		floor_to_added += existing_floor_no;
+		parkingDao.addFloor(floor_to_added,bike_count,car_count,hv_count);		
 	}
+
+	
 	public List<ParkingMaster> showOverview() {
-//		parkingDao.showList();
-		
+		//		parkingDao.showList();
+
 		List jasjd = new ArrayList<ParkingMaster>();
 		parkingMaster.setFloor_id(0);
 		parkingMaster.setCap_bike(54);
@@ -53,19 +53,27 @@ public class ParkingServiceImpl implements ParkingService {
 		jasjd.add(parkingMaster1);
 		return jasjd;
 	}
-	
-	public List<Intermident_values> showAvailibity() {
-		
-//		List<Intermident_values> result_parkingSpace = parkingDao.getAvailibilty();
-		
-		List<Intermident_values> result_parkingSpace = new ArrayList<Intermident_values>();
+
+	public List<Intermident_values> showAvailibity() throws Exception {
+
+		//		List<Intermident_values> result_parkingSpace = parkingDao.getAvailibilty();
+		try{
+			parkingDao.getAvailibilty();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		/*List result_parkingSpace = new ArrayList<Intermident_values>();
 		for(int i=1;i<8;i++){
 			list0.add(new Random().nextInt());
 			list1.add(new Random().nextInt());
 			list2.add(new Random().nextInt());
 		}
+
 		result_parkingSpace.add(list0);
-		return result_parkingSpace;
+		result_parkingSpace.add(list1);
+		result_parkingSpace.add(list2);*/
+
+		return null;
 	}
 
 }
