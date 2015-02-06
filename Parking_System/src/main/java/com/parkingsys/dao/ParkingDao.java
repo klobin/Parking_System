@@ -19,4 +19,12 @@ public interface ParkingDao {
 	int checkNoOffloors() throws Exception;
 
 
+	void createMapping_for_bikes(int floor_to_added, int bike_count) throws Exception;
+
+
+	void createMapping_for_cars(int floor_to_added, int car_count) throws Exception;
+
+
+	void createMapping_for_heavy_vehicles(int floor_to_added, int hv_count) throws Exception;
+
 }

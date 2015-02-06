@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
 import com.parkingsys.vo.Intermident_values;
 
 public class ParkingDaoImpl implements ParkingDao{
@@ -17,13 +19,13 @@ public class ParkingDaoImpl implements ParkingDao{
 	private Connection con = null;
 	private Statement stmt = null;
 	private ResultSet rs = null;
-	
-	public static void main(String args[]) throws Exception{
-		ParkingDaoImpl parkingDaoImpl = new ParkingDaoImpl();
-		parkingDaoImpl.getAvailibilty();
 
+
+	private void declarations() throws SQLException {
+		connectkon = new Connectkon();
+		con = connectkon.giveMeConnection();
+		stmt = con.createStatement();
 	}
-
 
 	public void addFloor(int floor_no,int bike_count, int car_count, int hv_count) throws SQLException {
 		declarations();
@@ -32,38 +34,9 @@ public class ParkingDaoImpl implements ParkingDao{
 		con = null;
 	}
 
-	public void getAvailibilty() throws Exception {
-		connectkon = new Connectkon();
-
-		try {
-
-			con= connectkon.giveMeConnection();
-
-			Statement stmt=con.createStatement();  
-			ResultSet rs=stmt.executeQuery("select * from  employees");  
-			System.out.println(rs);
-
-			while(rs.next())  {
-				System.out.println(rs.getInt(1)+"  "+rs.getString(2));  
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally{
-			con.close(); 
-			con=null;
-		}
-	}
-
 
 	public void showList() throws Exception{
 
-	}
-
-
-	public List<Intermident_values> getAvailibilty() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 
@@ -78,16 +51,44 @@ public class ParkingDaoImpl implements ParkingDao{
 		}
 		con.close();
 		con = null;
-		
+
 		int no = Collections.max(list);
 		return no;
 	}
 
 
-	private void declarations() throws SQLException {
-		connectkon = new Connectkon();
-		con = connectkon.giveMeConnection();
-		stmt = con.createStatement();
+	public void createMapping_for_bikes(int floor_no,int no_of_bikes) throws Exception {
+		declarations();
+		for(int i=1;i<=no_of_bikes;i++){
+			stmt.executeQuery("insert into bike_master values("+floor_no+",B"+i+",'no','')");	
+		}
+		con.close();
+		con = null;
+	}
+
+	public void createMapping_for_cars(int floor_no,int no_of_cars) throws Exception {
+		declarations();
+		for(int i=1;i<=no_of_cars;i++){
+			stmt.executeQuery("insert into car_master values("+floor_no+",C"+i+",'no','')");	
+		}
+		con.close();
+		con = null;
+	}
+
+
+	public void createMapping_for_heavy_vehicles(int floor_no,int no_of_hvs) throws Exception {
+		declarations();
+		for(int i=1;i<=no_of_hvs;i++){
+			stmt.executeQuery("insert into hv_master values("+floor_no+",T"+i+",'no','')");	
+		}
+		con.close();
+		con = null;
+	}
+
+
+	public List<Intermident_values> getAvailibilty() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
