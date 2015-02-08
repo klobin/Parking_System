@@ -1,39 +1,33 @@
 package com.parkingsys.vo;
 
 public class Car_master {
-	private int bay_no;
-	private boolean parked;
-	private String car_id;
-	private int extern_id;
-	public Car_master(int bay_no, boolean parked, String car_id, int extern_id) {
-		super();
-		this.bay_no = bay_no;
-		this.parked = parked;
-		this.car_id = car_id;
-		this.extern_id = extern_id;
+	private int floor_id;
+	private String parking_bay;
+	private String parked;
+	private String car_reg;
+	public int getFloor_id() {
+		return floor_id;
 	}
-	public int getBay_no() {
-		return bay_no;
+	public void setFloor_id(int floor_id) {
+		this.floor_id = floor_id;
 	}
-	public void setBay_no(int bay_no) {
-		this.bay_no = bay_no;
+	public String getParking_bay() {
+		return parking_bay;
 	}
-	public boolean isParked() {
+	public void setParking_bay(String parking_bay) {
+		this.parking_bay = parking_bay;
+	}
+	public String getParked() {
 		return parked;
 	}
-	public void setParked(boolean parked) {
+	public void setParked(String parked) {
 		this.parked = parked;
 	}
-	public String getCar_id() {
-		return car_id;
+	public String getCar_reg() {
+		return car_reg;
 	}
-	public void setCar_id(String car_id) {
-		this.car_id = car_id;
+	public void setCar_reg(String car_reg) {
+		this.car_reg = car_reg;
 	}
-	public int getExtern_id() {
-		return extern_id;
-	}
-	public void setExtern_id(int extern_id) {
-		this.extern_id = extern_id;
-	}
+
 }

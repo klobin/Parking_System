@@ -10,10 +10,7 @@ public interface ParkingDao {
 	void addFloor(int floor_no,int bike_count, int car_count, int hv_count) throws SQLException;
 
 
-	List<Intermident_values> getAvailibilty() throws Exception;
-
-
-	void showList() throws Exception;
+	List getAvailabilty() throws Exception;
 
 
 	int checkNoOffloors() throws Exception;
@@ -27,4 +24,5 @@ public interface ParkingDao {
 
 	void createMapping_for_heavy_vehicles(int floor_to_added, int hv_count) throws Exception;
 
+	
 }

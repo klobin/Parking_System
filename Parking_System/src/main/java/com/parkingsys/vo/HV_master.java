@@ -1,10 +1,10 @@
 package com.parkingsys.vo;
 
-public class Bike_master {
+public class HV_master {
 	private int floor_id;
 	private String parking_bay;
 	private String parked;
-	private String bike_reg;
+	private String hv_reg;
 	public int getFloor_id() {
 		return floor_id;
 	}
@@ -23,11 +23,10 @@ public class Bike_master {
 	public void setParked(String parked) {
 		this.parked = parked;
 	}
-	public String getBike_reg() {
-		return bike_reg;
+	public String getHv_reg() {
+		return hv_reg;
 	}
-	public void setBike_reg(String bike_reg) {
-		this.bike_reg = bike_reg;
+	public void setHv_reg(String hv_reg) {
+		this.hv_reg = hv_reg;
 	}
-	
 }

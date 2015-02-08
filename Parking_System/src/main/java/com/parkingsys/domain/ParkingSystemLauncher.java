@@ -1,9 +1,14 @@
 package com.parkingsys.domain;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 import com.parkingsys.controller.Controller;
+import com.parkingsys.vo.Bike_master;
+import com.parkingsys.vo.Car_master;
+import com.parkingsys.vo.HV_master;
 import com.parkingsys.vo.Intermident_values;
 import com.parkingsys.vo.ParkingMaster;
 
@@ -45,6 +50,7 @@ public class ParkingSystemLauncher {
 				displayList(controller);
 				break;
 			case 3:
+				
 				break;
 			case 4:
 				break;
@@ -59,9 +65,10 @@ public class ParkingSystemLauncher {
 		} while (i<=7);
 	}
 
-	private static void displayList(Controller controller) {
-		List<ParkingMaster> result = controller.showList();
+	private static void displayList(Controller controller) throws Exception {
+		List result = controller.showAvailability();
 		for (int j = 0;j<=(result.size()-1);j++) {
+			
 			ParkingMaster parkingMaster = (ParkingMaster) result.get(j);
 			System.out.println("\n***********************************************");
 			System.out.println("Floor no: "+parkingMaster.getFloor_id());
