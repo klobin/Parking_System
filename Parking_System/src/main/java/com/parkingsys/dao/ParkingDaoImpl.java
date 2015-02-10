@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import com.parkingsys.connection.*;
 import com.parkingsys.vo.Bike_master;
 import com.parkingsys.vo.Car_master;
@@ -32,7 +33,7 @@ public class ParkingDaoImpl implements ParkingDao{
 	private List result_list = null;
 
 
-	private void declarations() {
+	private void connectionStartUp() {
 		connectkon = new Connectkon();
 		try{
 			con = connectkon.giveMeConnection();
@@ -46,7 +47,7 @@ public class ParkingDaoImpl implements ParkingDao{
 	}
 
 	public void addFloor(int floor_no,int bike_count, int car_count, int hv_count) {
-		declarations();
+		connectionStartUp();
 		try{
 			stmt.executeQuery("insert into parking_master values("+floor_no+","+bike_count+","+car_count+","+hv_count+")");
 		}catch(SQLException e)
@@ -80,63 +81,51 @@ public class ParkingDaoImpl implements ParkingDao{
 	}
 
 
-	public void showList() throws Exception{
-
-	}
-
-
 	public int checkNoOffloors() throws Exception {
-		declarations();
+		connectionStartUp();
 		List<Integer> list = new ArrayList<Integer>(); 
 		rs = stmt.executeQuery("select floor_no from parking_master");
 		while(rs.next())
 		{
 			list.add(rs.getInt("floor_no"));
 		}
-		con.close();
-		con = null;
+		closeConnection();
 		int no = 0;
 		if(!list.isEmpty()){
-		no = Collections.max(list);
+			no = Collections.max(list);
 		}
 		return no;
 	}
 
 
 	public void createMapping_for_bikes(int floor_no,int no_of_bikes) throws Exception {
-		declarations();
+		connectionStartUp();
 		for(int i=1;i<=no_of_bikes;i++){
 			stmt.executeQuery("insert into bike_master values("+floor_no+",'B"+i+"','N','')");	
 		}
-		con.close();
-		con = null;
+		closeConnection();
 	}
 
 	public void createMapping_for_cars(int floor_no,int no_of_cars) throws Exception {
-		declarations();
+		connectionStartUp();
 		for(int i=1;i<=no_of_cars;i++){
 			stmt.executeQuery("insert into car_master values("+floor_no+",'C"+i+"','N','')");	
 		}
-		con.close();
-		con = null;
+		closeConnection();
 	}
 
 
 	public void createMapping_for_heavy_vehicles(int floor_no,int no_of_hvs) throws Exception {
-		declarations();
+		connectionStartUp();
 		for(int i=1;i<=no_of_hvs;i++){
 			stmt.executeQuery("insert into hv_master values("+floor_no+",'T"+i+"','N','')");	
 		}
-		con.close();
-		con = null;
+		closeConnection();
 	}
 
 	public List getAvailabilty() throws Exception {
-		declarations();
+		connectionStartUp();
 		rs = stmt.executeQuery("select floor_no from parking_master");
-//		bike_master = new Bike_master();
-		car_master = new Car_master();
-		hv_master = new HV_master();
 		list_bike = new ArrayList<Bike_master>();
 		list_car = new ArrayList<Car_master>();
 		list_hv = new ArrayList<HV_master>();
@@ -173,17 +162,18 @@ public class ParkingDaoImpl implements ParkingDao{
 				result_list.add(list_bike);
 				result_list.add(list_car);
 				result_list.add(hv_master);
-				
-				master_list.add(result_list);
-				
+
+//				master_list.add(result_list);
+
 			}
 		}
-		return master_list;
+		closeConnection();
+		return result_list;
 	}
 
 	public List getOverview() throws Exception {
 		List<ParkingMaster> pList = new ArrayList<ParkingMaster>();
-		declarations();
+		connectionStartUp();
 		rs = stmt.executeQuery("select * from parking_master");
 		while(rs.next())
 		{
@@ -194,7 +184,15 @@ public class ParkingDaoImpl implements ParkingDao{
 			parkingMaster.setCap_heavyVehicle(rs.getInt(4));
 			pList.add(parkingMaster);
 		}
+		closeConnection();
 		return pList;
+	}
+
+	public Boolean park(String floor_no, String parking_bay, String reg_no) {
+		connectionStartUp();
+		rs = stmt.executeQuery("select parked from ")
+		
+		return null;
 	}
 
 }
