@@ -1,22 +1,15 @@
 package com.parkingsys.domain;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 import com.parkingsys.controller.Controller;
-import com.parkingsys.vo.Bike_master;
-import com.parkingsys.vo.Car_master;
-import com.parkingsys.vo.HV_master;
-import com.parkingsys.vo.Intermident_values;
 import com.parkingsys.vo.ParkingMaster;
 
 public class ParkingSystemLauncher {
 
 //	final static Logger log =Logger.getLogger(ParkingSystemLauncher.class);
 
-	private static Intermident_values intermident_values;
 	
 
 	public static void main(String[] args) throws Exception {
@@ -27,7 +20,7 @@ public class ParkingSystemLauncher {
 		int addreq[] = new int[3];
 		Scanner input = new Scanner(System.in);
 		do {
-			System.out.println("1. Add Zone\n");
+			System.out.println("\n1. Add Zone\n");
 			System.out.println("2. List\n");
 			System.out.println("3. Show Availabilty\n");
 			System.out.println("4. Park\n");
@@ -50,7 +43,7 @@ public class ParkingSystemLauncher {
 				displayList(controller);
 				break;
 			case 3:
-				
+				availability(controller);
 				break;
 			case 4:
 				break;
@@ -65,8 +58,15 @@ public class ParkingSystemLauncher {
 		} while (i<=7);
 	}
 
+	private static void availability(Controller controller) throws Exception {
+		List result_list = controller.showAvailability();
+		for (int i = 0; i <=(result_list.size()-1); i++) {
+			List
+		}
+	}
+
 	private static void displayList(Controller controller) throws Exception {
-		List result = controller.showAvailability();
+		List result = controller.showOverview();
 		for (int j = 0;j<=(result.size()-1);j++) {
 			
 			ParkingMaster parkingMaster = (ParkingMaster) result.get(j);
@@ -75,7 +75,7 @@ public class ParkingSystemLauncher {
 			System.out.println("No of bikes: "+parkingMaster.getCap_bike());
 			System.out.println("No of cars: "+parkingMaster.getCap_car());
 			System.out.println("no of heavy vehicles: "+parkingMaster.getCap_heavyVehicle());
-			System.out.println("***********************************************\n");
+			System.out.println("*************************************************\n");
 		}
 	}
 

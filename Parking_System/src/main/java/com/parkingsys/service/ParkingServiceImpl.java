@@ -5,23 +5,14 @@ import java.util.List;
 
 import com.parkingsys.dao.ParkingDao;
 import com.parkingsys.dao.ParkingDaoImpl;
-import com.parkingsys.vo.HV_master;
-import com.parkingsys.vo.Intermident_values;
-import com.parkingsys.vo.ParkingMaster;
 
 public class ParkingServiceImpl implements ParkingService {
 
 	private ParkingDao parkingDao;
 
-	private ParkingMaster parkingMaster = new ParkingMaster();
-	private ParkingMaster parkingMaster1 = new ParkingMaster();
 	List<Integer> list0 = new ArrayList<Integer>();
 	List<Integer> list1 = new ArrayList<Integer>();
 	List<Integer> list2 = new ArrayList<Integer>();
-
-
-
-	private Intermident_values intermident_values = new Intermident_values();
 
 	public ParkingServiceImpl() throws Exception{
 		init();
@@ -42,6 +33,11 @@ public class ParkingServiceImpl implements ParkingService {
 
 	public List availabilty() throws Exception {
 		return parkingDao.getAvailabilty();
+	}
+	
+	public List getOverview() throws Exception {
+		
+		return parkingDao.getOverview();
 	}
 
 }

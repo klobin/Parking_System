@@ -22,7 +22,10 @@ public class Controller {
 	}
 
 	public List showAvailability() throws Exception {
-		List returnList = parkingService.availabilty();
-		return returnList;
+		return parkingService.availabilty();
+	}
+
+	public List showOverview() throws Exception {
+		return parkingService.getOverview();
 	}
 }

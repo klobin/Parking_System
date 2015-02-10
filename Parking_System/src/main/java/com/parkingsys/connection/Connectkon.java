@@ -16,13 +16,13 @@ public class Connectkon {
 
 	public Connection giveMeConnection() throws SQLException, IOException{  
 		try{
-			input = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
-			properties.load(input);
-			driver = properties.getProperty("driver");
-			connectionURL = properties.getProperty("url");
+//			input = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
+//			properties.load(input);
+//			driver = properties.getProperty("driver");
+//			connectionURL = properties.getProperty("url");
 
-			Class.forName(driver);  
-			con=DriverManager.getConnection(connectionURL);
+			Class.forName("org.hsqldb.jdbcDriver");  
+			con=DriverManager.getConnection("jdbc:hsqldb:file:C:/Users/g97158/Documents/TestDb", "SA", "");
 
 			if(con!=null)
 			{

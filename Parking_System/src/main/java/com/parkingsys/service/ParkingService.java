@@ -9,4 +9,6 @@ public interface ParkingService {
 
 	List availabilty() throws Exception;
 
+	List getOverview() throws Exception;
+
 }
