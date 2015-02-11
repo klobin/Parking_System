@@ -26,6 +26,6 @@ public interface ParkingDao {
 	List getOverview() throws Exception;
 
 
-	boolean park(String floor_no, String parking_bay, String reg_no,String vehicle_type);
+	boolean manage_Parking(String floor_no, String parking_bay, String reg_no,String vehicle_type, boolean park_unpark_flag);
 	
 }

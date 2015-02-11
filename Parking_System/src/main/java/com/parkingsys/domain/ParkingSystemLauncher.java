@@ -1,5 +1,6 @@
 package com.parkingsys.domain;
 
+import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -47,17 +48,45 @@ public class ParkingSystemLauncher {
 				break;
 			case 4:
 				parking_details(parking_detail, input);
-				Boolean bayCheck = controller.park(parking_detail[1],parking_detail[2],parking_detail[0],parking_detail[3]);
+				Boolean bayCheck = controller.manage_Parking(parking_detail[1],parking_detail[2],parking_detail[0],parking_detail[3],true);
+				if(!bayCheck){
+					System.out.println("Given parking location is not vacant !");
+				}
 				break;
 			case 5:
+				System.out.println("Please enter the vehicle Reg_No ??");
+				Locate(input.next());
 				break;
 			case 6:
+				getVehicleDetails(parking_detail, input);
+				Boolean isValidVehicle = controller.manage_Parking(parking_detail[1],parking_detail[2],parking_detail[0],parking_detail[3],false);
+				if(!isValidVehicle){
+					System.out.println("Please come out of hangover, your vehicle is not at the location given !");
+				}
 				break;
 			case 7:
 				System.out.println("Thanks for parking your vehicle :)");
 				System.exit(0);
 			}
 		} while (i<=7);
+	}
+
+	private static void getVehicleDetails(String[] parking_detail, Scanner input) {
+		Boolean validationFlag = false;
+		do{
+			System.out.println("Which vehicle is parked(bike,car,heavy_vehicle)?");
+			parking_detail[3] = input.next();
+			if(parking_detail[3].equalsIgnoreCase("bike") || parking_detail[3].equalsIgnoreCase("car") || parking_detail[3].equalsIgnoreCase("heavy_vehicle") ){
+				validationFlag = true;
+			}
+		}while(!validationFlag);
+		
+		System.out.println("Enter the vehicle Reg_no ?");
+		parking_detail[0] = input.next();
+		System.out.println("Enter the floor_no ?");
+		parking_detail[1] = input.next();
+		System.out.println("Enter the Parking_bay ?");
+		parking_detail[2] = input.next();
 	}
 
 	private static void parking_details(String[] parking_detail, Scanner input) {

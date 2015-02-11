@@ -188,8 +188,8 @@ public class ParkingDaoImpl implements ParkingDao{
 		return pList;
 	}
 
-	public boolean park(String floor_no, String parking_bay, String reg_no,String vehicle_type) {
-		Boolean availablity_flag = false;
+	public boolean manage_Parking(String floor_no, String parking_bay, String reg_no,String vehicle_type, boolean park_unpark_flag) {
+		Boolean return_flag = false;
 		connectionStartUp();
 		try{
 			String vehicle_prefix;
@@ -201,21 +201,35 @@ public class ParkingDaoImpl implements ParkingDao{
 			}else {
 				vehicle_prefix ="hv";
 			}
-			rs = stmt.executeQuery("select parked from "+vehicle_prefix+"_master where parking_bay='"+parking_bay+"' AND floor_id="+floor_no+"");
-			while(rs.next()){
-				String availabilty_check = rs.getString("parked");
-				availablity_flag = false;
-				if(availabilty_check.equalsIgnoreCase("N")){
-					stmt.executeQuery("update "+vehicle_prefix+"_master set parked='Y',"+vehicle_prefix+"_reg_no='"+reg_no+"' where parking_bay='"+parking_bay+"' AND floor_id="+floor_no+"");
-					availablity_flag = true;
+			if(park_unpark_flag)
+			{
+				rs = stmt.executeQuery("select parked from "+vehicle_prefix+"_master where parking_bay='"+parking_bay+"' AND floor_id="+floor_no+"");
+				while(rs.next()){
+					String availabilty_check = rs.getString("parked");
+					return_flag = false;
+					if(availabilty_check.equalsIgnoreCase("N")){
+						stmt.executeQuery("update "+vehicle_prefix+"_master set parked='Y',"+vehicle_prefix+"_reg_no='"+reg_no+"' where parking_bay='"+parking_bay+"' AND floor_id="+floor_no+"");
+						return_flag = true;
+					}
+				}
+			}else {
+				rs = stmt.executeQuery("select parked from "+vehicle_prefix+"_master where parking_bay='"+parking_bay+"' AND floor_id="+floor_no+"");
+				while(rs.next()){
+					String availabilty_check = rs.getString("parked");
+					return_flag = false;
+					if(availabilty_check.equalsIgnoreCase("Y")){
+						stmt.executeQuery("update "+vehicle_prefix+"_master set parked='N',"+vehicle_prefix+"_reg_no='' where parking_bay='"+parking_bay+"' AND floor_id="+floor_no+"");
+						return_flag = true;
+					}
 				}
 			}
+
 		}catch(SQLException e)
 		{
 			e.printStackTrace();
 		}finally{
 			closeConnection();
 		}
-		return availablity_flag;
+		return return_flag;
 	}
 }
