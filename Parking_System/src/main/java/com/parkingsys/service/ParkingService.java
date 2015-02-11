@@ -11,6 +11,6 @@ public interface ParkingService {
 
 	List getOverview() throws Exception;
 
-	Boolean park(String floor_no, String parkin_bay, String reg_no);
+	boolean park(String floor_no, String parkin_bay, String reg_no, String vehicle_type);
 
 }

@@ -135,27 +135,27 @@ public class ParkingDaoImpl implements ParkingDao{
 		{
 			if(rs.getInt("floor_no")!=0)
 			{
-				rs1 = stmt.executeQuery("select floor_no,parking_bay from bike_master where floor_no ="+rs.getInt("floor_no")+"");
+				rs1 = stmt.executeQuery("select floor_id,parking_bay from bike_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs1.next()) {
 					Bike_master bike_master = new Bike_master();
-					bike_master.setFloor_id(rs1.getInt(1));
-					bike_master.setParking_bay(rs1.getString(2));
+					bike_master.setFloor_id(rs1.getInt("floor_id"));
+					bike_master.setParking_bay(rs1.getString("parking_bay"));
 					list_bike.add(bike_master);
 				}
 
-				rs2 = stmt.executeQuery("select floor_no,parking_bay from car_master where floor_no ="+rs.getInt("floor_no")+"");
+				rs2 = stmt.executeQuery("select floor_id,parking_bay from car_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs2.next()) {
 					Car_master car_master = new Car_master();
-					car_master.setFloor_id(rs2.getInt(1));
-					car_master.setParking_bay(rs2.getString(2));
+					car_master.setFloor_id(rs2.getInt("floor_id"));
+					car_master.setParking_bay(rs2.getString("parking_bay"));
 					list_car.add(car_master);
 				}
 
-				rs3 = stmt.executeQuery("select floor_no,parking_bay from hv_master where floor_no ="+rs.getInt("floor_no")+"");
+				rs3 = stmt.executeQuery("select floor_id,parking_bay from hv_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs3.next()) {
 					HV_master hv_master = new HV_master();
-					hv_master.setFloor_id(rs3.getInt(1));
-					hv_master.setParking_bay(rs3.getString(2));
+					hv_master.setFloor_id(rs3.getInt("floor_id"));
+					hv_master.setParking_bay(rs3.getString("parking_bay"));
 					list_hv.add(hv_master);
 				}
 
@@ -163,7 +163,7 @@ public class ParkingDaoImpl implements ParkingDao{
 				result_list.add(list_car);
 				result_list.add(hv_master);
 
-//				master_list.add(result_list);
+				//				master_list.add(result_list);
 
 			}
 		}
@@ -188,11 +188,34 @@ public class ParkingDaoImpl implements ParkingDao{
 		return pList;
 	}
 
-	public Boolean park(String floor_no, String parking_bay, String reg_no) {
+	public boolean park(String floor_no, String parking_bay, String reg_no,String vehicle_type) {
+		Boolean availablity_flag = false;
 		connectionStartUp();
-		rs = stmt.executeQuery("select parked from ")
-		
-		return null;
-	}
+		try{
+			String vehicle_prefix;
 
+			if(vehicle_type.equalsIgnoreCase("bike")){
+				vehicle_prefix = "bike";
+			}else if(vehicle_type.equalsIgnoreCase("car")) {
+				vehicle_prefix="car";
+			}else {
+				vehicle_prefix ="hv";
+			}
+			rs = stmt.executeQuery("select parked from "+vehicle_prefix+"_master where parking_bay='"+parking_bay+"' AND floor_id="+floor_no+"");
+			while(rs.next()){
+				String availabilty_check = rs.getString("parked");
+				availablity_flag = false;
+				if(availabilty_check.equalsIgnoreCase("N")){
+					stmt.executeQuery("update "+vehicle_prefix+"_master set parked='Y',"+vehicle_prefix+"_reg_no='"+reg_no+"' where parking_bay='"+parking_bay+"' AND floor_id="+floor_no+"");
+					availablity_flag = true;
+				}
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}finally{
+			closeConnection();
+		}
+		return availablity_flag;
+	}
 }

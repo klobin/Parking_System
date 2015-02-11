@@ -17,7 +17,7 @@ public class ParkingSystemLauncher {
 
 		int i;
 		int addreq[] = new int[3];
-		String parking_detail[] = new String[3];
+		String parking_detail[] = new String[4];
 		Scanner input = new Scanner(System.in);
 		do {
 			System.out.println("\n1. Add Zone\n");
@@ -47,7 +47,7 @@ public class ParkingSystemLauncher {
 				break;
 			case 4:
 				parking_details(parking_detail, input);
-				Boolean bayCheck = controller.park(parking_detail[1],parking_detail[2],parking_detail[0]);
+				Boolean bayCheck = controller.park(parking_detail[1],parking_detail[2],parking_detail[0],parking_detail[3]);
 				break;
 			case 5:
 				break;
@@ -64,11 +64,11 @@ public class ParkingSystemLauncher {
 		Boolean validationFlag = false;
 		do{
 			System.out.println("Which vehicle to park(bike,car,heavy_vehicle)?");
-			parking_detail[4] = input.next();
-			if(parking_detail[4].equalsIgnoreCase("bike") || parking_detail[4].equalsIgnoreCase("car") || parking_detail[4].equalsIgnoreCase("heavy_vehicle") ){
+			parking_detail[3] = input.next();
+			if(parking_detail[3].equalsIgnoreCase("bike") || parking_detail[3].equalsIgnoreCase("car") || parking_detail[3].equalsIgnoreCase("heavy_vehicle") ){
 				validationFlag = true;
 			}
-		}while(validationFlag);
+		}while(!validationFlag);
 		
 		System.out.println("Enter the vehicle Reg_no ?");
 		parking_detail[0] = input.next();

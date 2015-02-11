@@ -39,9 +39,8 @@ public class ParkingServiceImpl implements ParkingService {
 		
 		return parkingDao.getOverview();
 	}
-	public Boolean park(String floor_no, String parking_bay, String reg_no) {
-		return ParkingDao.park(floor_no,parking_bay,reg_no);
-		
+	public boolean park(String floor_no, String parking_bay, String reg_no,String vehicle_type) {
+		return parkingDao.park(floor_no, parking_bay, reg_no, vehicle_type);
 	}
 
 }

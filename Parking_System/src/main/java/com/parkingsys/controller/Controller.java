@@ -29,7 +29,7 @@ public class Controller {
 		return parkingService.getOverview();
 	}
 
-	public boolean park(String floor_no, String parkin_bay, String reg_no) {
-		return parkingService.park(floor_no,parkin_bay,reg_no);
+	public boolean park(String floor_no, String parkin_bay, String reg_no, String vehicle_type) {
+		return parkingService.park(floor_no,parkin_bay,reg_no,vehicle_type);
 	}
 }
