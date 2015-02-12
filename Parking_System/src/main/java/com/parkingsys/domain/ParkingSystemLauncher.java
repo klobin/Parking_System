@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.omg.CosNaming.IstringHelper;
+
 import com.parkingsys.controller.Controller;
+import com.parkingsys.vo.Bike_master;
+import com.parkingsys.vo.Car_master;
+import com.parkingsys.vo.HV_master;
 import com.parkingsys.vo.ParkingMaster;
 
 public class ParkingSystemLauncher {
@@ -55,7 +60,7 @@ public class ParkingSystemLauncher {
 				break;
 			case 5:
 				System.out.println("Please enter the vehicle Reg_No ??");
-				Locate(input.next());
+				LocateVehicle(input.next(),controller);
 				break;
 			case 6:
 				getVehicleDetails(parking_detail, input);
@@ -71,6 +76,38 @@ public class ParkingSystemLauncher {
 		} while (i<=7);
 	}
 
+	private static void LocateVehicle(String reg_no,Controller controller) {
+		List return_list = new ArrayList();
+		return_list = controller.locateVehcile(reg_no);
+		if(return_list!=null){
+			Object obj = return_list.get(0);
+			if(obj instanceof Bike_master)
+			{
+				Bike_master bike_master = new Bike_master();
+				bike_master =(Bike_master) return_list.get(0);
+				displayLocation(bike_master.getFloor_id(),bike_master.getParking_bay());
+			}else if (obj instanceof Car_master) {
+				Car_master car_master = new Car_master();
+				car_master =(Car_master)return_list.get(0);
+				displayLocation(car_master.getFloor_id(), car_master.getParking_bay());
+			}else if (obj instanceof HV_master) {
+				HV_master hv_master = new HV_master();
+				hv_master = (HV_master) return_list.get(0);
+				displayLocation(hv_master.getFloor_id(), hv_master.getParking_bay());
+			}else {
+				System.out.println("Reg_no of vehicle not found, please check reg_no correctly and try again ?");
+			}
+		}else {
+			System.out.println("Reg_no of vehicle not found, please check reg_no correctly and try again ?");
+		}
+
+	}
+
+	private static void displayLocation(int floor_id, String parking_bay) {
+		System.out.println("******************************************\n");
+		System.out.println("Vehicle is parked in "+parking_bay+" on "+floor_id+"floor ");
+	}
+
 	private static void getVehicleDetails(String[] parking_detail, Scanner input) {
 		Boolean validationFlag = false;
 		do{
@@ -80,7 +117,7 @@ public class ParkingSystemLauncher {
 				validationFlag = true;
 			}
 		}while(!validationFlag);
-		
+
 		System.out.println("Enter the vehicle Reg_no ?");
 		parking_detail[0] = input.next();
 		System.out.println("Enter the floor_no ?");
@@ -98,7 +135,7 @@ public class ParkingSystemLauncher {
 				validationFlag = true;
 			}
 		}while(!validationFlag);
-		
+
 		System.out.println("Enter the vehicle Reg_no ?");
 		parking_detail[0] = input.next();
 		System.out.println("Enter the floor_no ?");

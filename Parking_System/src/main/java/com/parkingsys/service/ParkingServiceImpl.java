@@ -42,5 +42,8 @@ public class ParkingServiceImpl implements ParkingService {
 	public boolean manage_Parking(String floor_no, String parking_bay, String reg_no,String vehicle_type, boolean park_unpark_flag) {
 		return parkingDao.manage_Parking(floor_no, parking_bay, reg_no, vehicle_type,park_unpark_flag);
 	}
+	public List locateVehcile(String reg_no) {
+		return parkingDao.locateVehicle(reg_no);
+	}
 
 }

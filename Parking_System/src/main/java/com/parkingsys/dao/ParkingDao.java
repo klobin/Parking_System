@@ -27,5 +27,8 @@ public interface ParkingDao {
 
 
 	boolean manage_Parking(String floor_no, String parking_bay, String reg_no,String vehicle_type, boolean park_unpark_flag);
+
+
+	List locateVehicle(String reg_no);
 	
 }

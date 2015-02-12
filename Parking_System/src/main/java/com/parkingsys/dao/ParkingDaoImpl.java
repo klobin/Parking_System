@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.hsqldb.map.ReusableObjectCache;
+
 import com.parkingsys.connection.*;
 import com.parkingsys.vo.Bike_master;
 import com.parkingsys.vo.Car_master;
@@ -231,5 +233,44 @@ public class ParkingDaoImpl implements ParkingDao{
 			closeConnection();
 		}
 		return return_flag;
+	}
+
+	public List locateVehicle(String reg_no) {
+		connectionStartUp();
+		List result_list = new ArrayList();
+		try {
+			rs = stmt.executeQuery("select floor_id, parking_bay from bike_master where bike_reg_no='"+reg_no+"'");
+			if(rs.next())
+			{
+				bike_master = new Bike_master();
+				bike_master.setFloor_id(rs.getInt("floor_id"));
+				bike_master.setParking_bay(rs.getString("parking_bay"));
+				result_list.add(bike_master);
+			}
+			
+			rs1 = stmt.executeQuery("select floor_id, parking_bay from car_master where car_reg_no='"+reg_no+"'");
+			if(rs1.next())
+			{
+				car_master = new Car_master();
+				car_master.setFloor_id(rs.getInt("floor_id"));
+				car_master.setParking_bay(rs.getString("parking_bay"));
+				result_list.add(car_master);
+			}
+			
+			rs2 = stmt.executeQuery("select floor_id, parking_bay from car_master where car_reg_no='"+reg_no+"'");
+			if(rs2.next())
+			{
+				hv_master = new HV_master();
+				hv_master.setFloor_id(rs.getInt("floor_id"));
+				hv_master.setParking_bay(rs.getString("parking_bay"));
+				result_list.add(hv_master);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			closeConnection();
+		}
+		
+		return result_list;
 	}
 }
