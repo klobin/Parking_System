@@ -1,11 +1,8 @@
 package com.parkingsys.domain;
 
-import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import org.omg.CosNaming.IstringHelper;
 
 import com.parkingsys.controller.Controller;
 import com.parkingsys.vo.Bike_master;
@@ -32,7 +29,8 @@ public class ParkingSystemLauncher {
 			System.out.println("4. Park\n");
 			System.out.println("5. Locate vehicle\n");
 			System.out.println("6. Unpark\n");
-			System.out.println("7. Exit\n");
+			System.out.println("7. Remove zone\n");
+			System.out.println("8. Exit\n");
 			System.out.println("Opt your choice !!\n");
 			try{
 				i = input.nextInt();
@@ -70,11 +68,15 @@ public class ParkingSystemLauncher {
 				}
 				break;
 			case 7:
+				controller.remove();
+				break;
+			case 8:
 				System.out.println("Thanks for parking your vehicle :)");
 				System.exit(0);
 			}
 		} while (i<=7);
 	}
+
 
 	private static void LocateVehicle(String reg_no,Controller controller) {
 		List return_list = new ArrayList();

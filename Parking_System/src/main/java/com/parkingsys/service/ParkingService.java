@@ -15,4 +15,6 @@ public interface ParkingService {
 
 	List locateVehcile(String reg_no);
 
+	void remove();
+
 }

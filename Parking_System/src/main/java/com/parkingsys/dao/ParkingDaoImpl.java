@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.hsqldb.map.ReusableObjectCache;
-
-import com.parkingsys.connection.*;
+import com.parkingsys.connection.Connectkon;
 import com.parkingsys.vo.Bike_master;
 import com.parkingsys.vo.Car_master;
 import com.parkingsys.vo.HV_master;
@@ -247,8 +245,8 @@ public class ParkingDaoImpl implements ParkingDao{
 				bike_master.setParking_bay(rs.getString("parking_bay"));
 				result_list.add(bike_master);
 			}
-			
-			rs1 = stmt.executeQuery("select floor_id, parking_bay from car_master where car_reg_no='"+reg_no+"'");
+
+			rs1 = stmt.executeQuery("select floor_id,parking_bay from car_master where car_reg_no='"+reg_no+"'");
 			if(rs1.next())
 			{
 				car_master = new Car_master();
@@ -256,7 +254,7 @@ public class ParkingDaoImpl implements ParkingDao{
 				car_master.setParking_bay(rs1.getString("parking_bay"));
 				result_list.add(car_master);
 			}
-			
+
 			rs2 = stmt.executeQuery("select floor_id, parking_bay from hv_master where hv_reg_no='"+reg_no+"'");
 			if(rs2.next())
 			{
@@ -270,7 +268,22 @@ public class ParkingDaoImpl implements ParkingDao{
 		}finally{
 			closeConnection();
 		}
-		
+
 		return result_list;
+	}
+
+	public void remove(int floor_id) {
+		try{
+			connectionStartUp();
+			stmt.executeQuery("delete from bike_master where floor_id="+floor_id+"");
+			stmt.executeQuery("delete from car_master where floor_id="+floor_id+"");
+			stmt.executeQuery("delete from hv_master where floor_id="+floor_id+"");
+			stmt.executeQuery("delete from parking_master where floor_no="+floor_id+"");
+		}catch(SQLException e){
+			rollback();
+		}finally{
+			closeConnection();
+		}
+
 	}
 }

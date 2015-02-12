@@ -30,5 +30,8 @@ public interface ParkingDao {
 
 
 	List locateVehicle(String reg_no);
+
+
+	void remove(int no);
 	
 }

@@ -21,9 +21,13 @@ public class Connectkon {
 //			driver = properties.getProperty("driver");
 //			connectionURL = properties.getProperty("url");
 
-			Class.forName("org.hsqldb.jdbcDriver");  
-			con=DriverManager.getConnection("jdbc:hsqldb:file:C:/Users/g97158/Documents/TestDb", "SA", "");
+//			Class.forName("org.hsqldb.jdbcDriver");  
+//			con=DriverManager.getConnection("jdbc:hsqldb:file:C:/Users/g97158/Documents/TestDb", "SA", "");
 
+			Class.forName("oracle.jdbc.driver.OracleDriver");  
+			con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","system");
+
+			
 			if(con!=null)
 			{
 				return con;

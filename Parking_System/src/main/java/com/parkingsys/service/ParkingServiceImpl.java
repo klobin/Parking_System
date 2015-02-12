@@ -45,5 +45,13 @@ public class ParkingServiceImpl implements ParkingService {
 	public List locateVehcile(String reg_no) {
 		return parkingDao.locateVehicle(reg_no);
 	}
+	public void remove() {
+		try {
+			int no = parkingDao.checkNoOffloors();
+			parkingDao.remove(no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

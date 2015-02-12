@@ -36,4 +36,8 @@ public class Controller {
 	public List locateVehcile(String reg_no) {
 		return parkingService.locateVehcile(reg_no);
 	}
+
+	public void remove() {
+		parkingService.remove();
+	}
 }
