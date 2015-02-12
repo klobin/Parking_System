@@ -1,6 +1,7 @@
 package com.parkingsys.domain;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,6 +9,7 @@ import com.parkingsys.controller.Controller;
 import com.parkingsys.vo.Bike_master;
 import com.parkingsys.vo.Car_master;
 import com.parkingsys.vo.HV_master;
+import com.parkingsys.vo.Intermident_values;
 import com.parkingsys.vo.ParkingMaster;
 
 public class ParkingSystemLauncher {
@@ -57,14 +59,14 @@ public class ParkingSystemLauncher {
 				}
 				break;
 			case 5:
-				System.out.println("Please enter the vehicle Reg_No ??");
+				System.out.println("\nPlease enter the vehicle Reg_No ??");
 				LocateVehicle(input.next(),controller);
 				break;
 			case 6:
 				getVehicleDetails(parking_detail, input);
 				Boolean isValidVehicle = controller.manage_Parking(parking_detail[1],parking_detail[2],parking_detail[0],parking_detail[3],false);
 				if(!isValidVehicle){
-					System.out.println("Please come out of hangover, your vehicle is not at the location given !");
+					System.out.println("Please come out of hangover, your vehicle is not at the given location !");
 				}
 				break;
 			case 7:
@@ -97,10 +99,10 @@ public class ParkingSystemLauncher {
 				hv_master = (HV_master) return_list.get(0);
 				displayLocation(hv_master.getFloor_id(), hv_master.getParking_bay());
 			}else {
-				System.out.println("Reg_no of vehicle not found, please check reg_no correctly and try again ?");
+				System.out.println("\nReg_no of vehicle not found, please check reg_no correctly and try again ?");
 			}
 		}else {
-			System.out.println("Reg_no of vehicle not found, please check reg_no correctly and try again ?");
+			System.out.println("\nReg_no of vehicle not found, please check reg_no correctly and try again ?");
 		}
 
 	}
@@ -150,7 +152,18 @@ public class ParkingSystemLauncher {
 	private static void availability(Controller controller) throws Exception {
 		List result_list = controller.showAvailability();
 		for (int i = 0; i <=(result_list.size()-1); i++) {
-			List intermident_list = new ArrayList();
+			List intermident_list = (List) result_list.get(0);
+			for(int j = 0;j <= 2;j++){
+				if(j == 0){
+					List<Bike_master> bike_list = (List<Bike_master>) intermident_list.get(j);
+					for (Iterator iterator = bike_list.iterator(); iterator	.hasNext();) {
+						Bike_master bike_master = (Bike_master) iterator.next();
+						System.out.println(" "+bike_master.getParking_bay()+" ");
+						
+					}
+					System.out.println("\n");
+				}
+			}
 		}
 	}
 

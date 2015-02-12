@@ -143,7 +143,7 @@ public class ParkingDaoImpl implements ParkingDao{
 					list_bike.add(bike_master);
 				}
 
-				rs2 = stmt.executeQuery("select floor_id,parking_bay from car_master where floor_id ="+rs.getInt("floor_no")+"");
+				rs1 = stmt.executeQuery("select floor_id,parking_bay from bike_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs2.next()) {
 					Car_master car_master = new Car_master();
 					car_master.setFloor_id(rs2.getInt("floor_id"));
@@ -163,12 +163,12 @@ public class ParkingDaoImpl implements ParkingDao{
 				result_list.add(list_car);
 				result_list.add(hv_master);
 
-				//				master_list.add(result_list);
+				master_list.add(result_list);
 
 			}
 		}
 		closeConnection();
-		return result_list;
+		return master_list;
 	}
 
 	public List getOverview() throws Exception {
@@ -244,6 +244,7 @@ public class ParkingDaoImpl implements ParkingDao{
 				bike_master.setFloor_id(rs.getInt("floor_id"));
 				bike_master.setParking_bay(rs.getString("parking_bay"));
 				result_list.add(bike_master);
+				return result_list;
 			}
 
 			rs1 = stmt.executeQuery("select floor_id,parking_bay from car_master where car_reg_no='"+reg_no+"'");
@@ -253,6 +254,7 @@ public class ParkingDaoImpl implements ParkingDao{
 				car_master.setFloor_id(rs1.getInt("floor_id"));
 				car_master.setParking_bay(rs1.getString("parking_bay"));
 				result_list.add(car_master);
+				return result_list;
 			}
 
 			rs2 = stmt.executeQuery("select floor_id, parking_bay from hv_master where hv_reg_no='"+reg_no+"'");
@@ -262,6 +264,7 @@ public class ParkingDaoImpl implements ParkingDao{
 				hv_master.setFloor_id(rs2.getInt("floor_id"));
 				hv_master.setParking_bay(rs2.getString("parking_bay"));
 				result_list.add(hv_master);
+				return result_list;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -269,7 +272,7 @@ public class ParkingDaoImpl implements ParkingDao{
 			closeConnection();
 		}
 
-		return result_list;
+		return null;
 	}
 
 	public void remove(int floor_id) {

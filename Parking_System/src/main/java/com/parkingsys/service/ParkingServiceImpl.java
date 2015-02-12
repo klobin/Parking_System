@@ -34,9 +34,9 @@ public class ParkingServiceImpl implements ParkingService {
 	public List availabilty() throws Exception {
 		return parkingDao.getAvailabilty();
 	}
-	
+
 	public List getOverview() throws Exception {
-		
+
 		return parkingDao.getOverview();
 	}
 	public boolean manage_Parking(String floor_no, String parking_bay, String reg_no,String vehicle_type, boolean park_unpark_flag) {
@@ -48,10 +48,15 @@ public class ParkingServiceImpl implements ParkingService {
 	public void remove() {
 		try {
 			int no = parkingDao.checkNoOffloors();
-			parkingDao.remove(no);
+			if(no!=0){
+				parkingDao.remove(no);
+			}else{
+				System.out.println("\n************************************\n");
+				System.out.println(" WARNING -> All zones removed !\n");
+				System.out.println("**************************************\n");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }
