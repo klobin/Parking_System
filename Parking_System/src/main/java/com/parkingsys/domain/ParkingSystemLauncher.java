@@ -105,7 +105,8 @@ public class ParkingSystemLauncher {
 
 	private static void displayLocation(int floor_id, String parking_bay) {
 		System.out.println("******************************************\n");
-		System.out.println("Vehicle is parked in "+parking_bay+" on "+floor_id+"floor ");
+		System.out.println("Vehicle is parked in "+parking_bay+" on "+floor_id+"-floor ");
+		System.out.println("\n******************************************");
 	}
 
 	private static void getVehicleDetails(String[] parking_detail, Scanner input) {

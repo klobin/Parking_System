@@ -252,17 +252,17 @@ public class ParkingDaoImpl implements ParkingDao{
 			if(rs1.next())
 			{
 				car_master = new Car_master();
-				car_master.setFloor_id(rs.getInt("floor_id"));
-				car_master.setParking_bay(rs.getString("parking_bay"));
+				car_master.setFloor_id(rs1.getInt("floor_id"));
+				car_master.setParking_bay(rs1.getString("parking_bay"));
 				result_list.add(car_master);
 			}
 			
-			rs2 = stmt.executeQuery("select floor_id, parking_bay from car_master where car_reg_no='"+reg_no+"'");
+			rs2 = stmt.executeQuery("select floor_id, parking_bay from hv_master where hv_reg_no='"+reg_no+"'");
 			if(rs2.next())
 			{
 				hv_master = new HV_master();
-				hv_master.setFloor_id(rs.getInt("floor_id"));
-				hv_master.setParking_bay(rs.getString("parking_bay"));
+				hv_master.setFloor_id(rs2.getInt("floor_id"));
+				hv_master.setParking_bay(rs2.getString("parking_bay"));
 				result_list.add(hv_master);
 			}
 		} catch (SQLException e) {
