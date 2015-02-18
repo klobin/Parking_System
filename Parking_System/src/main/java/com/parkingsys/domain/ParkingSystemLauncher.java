@@ -204,6 +204,8 @@ public class ParkingSystemLauncher {
 				if(j == 0){
 					List<Bike_master> bike_list = (List<Bike_master>) intermident_list.get(j);
 					System.out.println("***********************************************\n");
+					Bike_master obj = bike_list.get(0);
+					System.out.println(" FLOOR No: "+obj.getFloor_id()+"\n");
 					for (Iterator iterator = bike_list.iterator(); iterator	.hasNext();) {
 						Bike_master bike_master = (Bike_master) iterator.next();
 						System.out.print(" "+bike_master.getParking_bay()+" ");

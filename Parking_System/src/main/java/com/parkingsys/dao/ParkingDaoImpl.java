@@ -28,10 +28,10 @@ public class ParkingDaoImpl implements ParkingDao{
 	private Bike_master bike_master = null;
 	private Car_master car_master = null;
 	private HV_master hv_master = null;
-	private List<Bike_master> list_bike = null;
-	private List<Car_master> list_car = null;
-	private List<HV_master> list_hv = null;
-	private List result_list = null;
+//	private List<Bike_master> list_bike = null;
+//	private List<Car_master> list_car = null;
+//	private List<HV_master> list_hv = null;
+//	private List result_list = null;
 
 
 	private void connectionStartUp() {
@@ -128,15 +128,18 @@ public class ParkingDaoImpl implements ParkingDao{
 	public HashMap<Integer, List> getAvailabilty() throws Exception {
 		connectionStartUp();
 		rs = stmt.executeQuery("select floor_no from parking_master");
-		list_bike = new ArrayList<Bike_master>();
-		list_car = new ArrayList<Car_master>();
-		list_hv = new ArrayList<HV_master>();
+//		list_bike = new ArrayList<Bike_master>();
+//		list_car = new ArrayList<Car_master>();
+//		list_hv = new ArrayList<HV_master>();
 		//		result_list = new ArrayList();
 		List master_list = new ArrayList();
 		HashMap<Integer, List> map = new HashMap<Integer, List>();
 		while(rs.next())
 		{
-			result_list = new ArrayList();
+			List result_list = new ArrayList();
+			List<Bike_master>list_bike = new ArrayList<Bike_master>();
+			List<Car_master>list_car = new ArrayList<Car_master>();
+			List<HV_master> list_hv = new ArrayList<HV_master>();
 			//			List master_list = new ArrayList();
 
 			if(rs.getInt("floor_no")!=0)
@@ -144,6 +147,7 @@ public class ParkingDaoImpl implements ParkingDao{
 				rs1 = stmt.executeQuery("select floor_id,parking_bay,parked from bike_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs1.next()) {
 					if(rs1.getString("parked").equalsIgnoreCase("N")){
+						
 						Bike_master bike_master = new Bike_master();
 						bike_master.setFloor_id(rs1.getInt("floor_id"));
 						bike_master.setParking_bay(rs1.getString("parking_bay"));
@@ -154,6 +158,7 @@ public class ParkingDaoImpl implements ParkingDao{
 				rs2 = stmt.executeQuery("select floor_id,parking_bay,parked from car_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs2.next()) {
 					if(rs2.getString("parked").equalsIgnoreCase("N")){
+						
 						Car_master car_master = new Car_master();
 						car_master.setFloor_id(rs2.getInt("floor_id"));
 						car_master.setParking_bay(rs2.getString("parking_bay"));
