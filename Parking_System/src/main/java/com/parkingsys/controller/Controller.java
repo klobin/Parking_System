@@ -1,5 +1,6 @@
 package com.parkingsys.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.parkingsys.service.ParkingService;
@@ -21,7 +22,7 @@ public class Controller {
 		parkingService.addLevel(bike_count,car_count,hv_count);
 	}
 
-	public List showAvailability() throws Exception {
+	public HashMap<Integer, List> showAvailability() throws Exception {
 		return parkingService.availabilty();
 	}
 

@@ -1,6 +1,7 @@
 package com.parkingsys.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.parkingsys.dao.ParkingDao;
@@ -31,7 +32,7 @@ public class ParkingServiceImpl implements ParkingService {
 		parkingDao.createMapping_for_heavy_vehicles(floor_to_added,hv_count);
 	}
 
-	public List availabilty() throws Exception {
+	public HashMap<Integer, List> availabilty() throws Exception {
 		return parkingDao.getAvailabilty();
 	}
 

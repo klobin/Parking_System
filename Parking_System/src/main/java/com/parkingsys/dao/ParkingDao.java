@@ -1,6 +1,7 @@
 package com.parkingsys.dao;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 public interface ParkingDao {
@@ -8,7 +9,7 @@ public interface ParkingDao {
 	void addFloor(int floor_no,int bike_count, int car_count, int hv_count) throws SQLException;
 
 
-	List getAvailabilty() throws Exception;
+	HashMap<Integer, List> getAvailabilty() throws Exception;
 
 
 	int checkNoOffloors() throws Exception;

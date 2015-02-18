@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import com.parkingsys.connection.Connectkon;
@@ -123,52 +124,65 @@ public class ParkingDaoImpl implements ParkingDao{
 		closeConnection();
 	}
 
-	public List getAvailabilty() throws Exception {
+	@SuppressWarnings({ "unchecked", "unchecked" })
+	public HashMap<Integer, List> getAvailabilty() throws Exception {
 		connectionStartUp();
 		rs = stmt.executeQuery("select floor_no from parking_master");
 		list_bike = new ArrayList<Bike_master>();
 		list_car = new ArrayList<Car_master>();
 		list_hv = new ArrayList<HV_master>();
-		result_list = new ArrayList();
+		//		result_list = new ArrayList();
 		List master_list = new ArrayList();
+		HashMap<Integer, List> map = new HashMap<Integer, List>();
 		while(rs.next())
 		{
+			result_list = new ArrayList();
+			//			List master_list = new ArrayList();
+
 			if(rs.getInt("floor_no")!=0)
 			{
-				rs1 = stmt.executeQuery("select floor_id,parking_bay from bike_master where floor_id ="+rs.getInt("floor_no")+"");
+				rs1 = stmt.executeQuery("select floor_id,parking_bay,parked from bike_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs1.next()) {
-					Bike_master bike_master = new Bike_master();
-					bike_master.setFloor_id(rs1.getInt("floor_id"));
-					bike_master.setParking_bay(rs1.getString("parking_bay"));
-					list_bike.add(bike_master);
+					if(rs1.getString("parked").equalsIgnoreCase("N")){
+						Bike_master bike_master = new Bike_master();
+						bike_master.setFloor_id(rs1.getInt("floor_id"));
+						bike_master.setParking_bay(rs1.getString("parking_bay"));
+						list_bike.add(bike_master);
+					}
 				}
 
-				rs1 = stmt.executeQuery("select floor_id,parking_bay from bike_master where floor_id ="+rs.getInt("floor_no")+"");
+				rs2 = stmt.executeQuery("select floor_id,parking_bay,parked from car_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs2.next()) {
-					Car_master car_master = new Car_master();
-					car_master.setFloor_id(rs2.getInt("floor_id"));
-					car_master.setParking_bay(rs2.getString("parking_bay"));
-					list_car.add(car_master);
+					if(rs2.getString("parked").equalsIgnoreCase("N")){
+						Car_master car_master = new Car_master();
+						car_master.setFloor_id(rs2.getInt("floor_id"));
+						car_master.setParking_bay(rs2.getString("parking_bay"));
+						list_car.add(car_master);
+					}
 				}
 
-				rs3 = stmt.executeQuery("select floor_id,parking_bay from hv_master where floor_id ="+rs.getInt("floor_no")+"");
+				rs3 = stmt.executeQuery("select floor_id,parking_bay,parked from hv_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs3.next()) {
-					HV_master hv_master = new HV_master();
-					hv_master.setFloor_id(rs3.getInt("floor_id"));
-					hv_master.setParking_bay(rs3.getString("parking_bay"));
-					list_hv.add(hv_master);
+					if(rs3.getString("parked").equalsIgnoreCase("N"))
+					{
+						HV_master hv_master = new HV_master();
+						hv_master.setFloor_id(rs3.getInt("floor_id"));
+						hv_master.setParking_bay(rs3.getString("parking_bay"));
+						list_hv.add(hv_master);
+					}
 				}
 
 				result_list.add(list_bike);
 				result_list.add(list_car);
-				result_list.add(hv_master);
+				result_list.add(list_hv);
 
-				master_list.add(result_list);
-
+//				master_list.add(result_list);
+				
+				map.put(rs.getInt("floor_no"), result_list);
 			}
 		}
 		closeConnection();
-		return master_list;
+		return map;
 	}
 
 	public List getOverview() throws Exception {
