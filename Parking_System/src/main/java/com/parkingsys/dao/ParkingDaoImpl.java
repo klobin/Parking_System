@@ -28,10 +28,10 @@ public class ParkingDaoImpl implements ParkingDao{
 	private Bike_master bike_master = null;
 	private Car_master car_master = null;
 	private HV_master hv_master = null;
-//	private List<Bike_master> list_bike = null;
-//	private List<Car_master> list_car = null;
-//	private List<HV_master> list_hv = null;
-//	private List result_list = null;
+	//	private List<Bike_master> list_bike = null;
+	//	private List<Car_master> list_car = null;
+	//	private List<HV_master> list_hv = null;
+	//	private List result_list = null;
 
 
 	private void connectionStartUp() {
@@ -47,16 +47,20 @@ public class ParkingDaoImpl implements ParkingDao{
 		}
 	}
 
-	public void addFloor(int floor_no,int bike_count, int car_count, int hv_count) {
+	public boolean addFloor(int floor_no,int bike_count, int car_count, int hv_count) {
 		connectionStartUp();
 		try{
-			stmt.executeQuery("insert into parking_master values("+floor_no+","+bike_count+","+car_count+","+hv_count+")");
+			int i = stmt.executeUpdate("insert into parking_master values("+floor_no+","+bike_count+","+car_count+","+hv_count+")");
+			if(i>0){
+				return true;
+			}
 		}catch(SQLException e)
 		{
 			rollback();
 		}finally{
 			closeConnection();
 		}
+		return false;
 	}
 
 	private void closeConnection() {
@@ -99,40 +103,55 @@ public class ParkingDaoImpl implements ParkingDao{
 	}
 
 
-	public void createMapping_for_bikes(int floor_no,int no_of_bikes) throws Exception {
+	public boolean createMapping_for_bikes(int floor_no,int no_of_bikes) throws Exception {
 		connectionStartUp();
+		int j = 0;
 		for(int i=1;i<=no_of_bikes;i++){
-			stmt.executeQuery("insert into bike_master values("+floor_no+",'B"+i+"','N','')");	
+			j = stmt.executeUpdate("insert into bike_master values("+floor_no+",'B"+i+"','N','')");
+		}
+		if(j>0){
+			return true;
 		}
 		closeConnection();
+		return false;
 	}
 
-	public void createMapping_for_cars(int floor_no,int no_of_cars) throws Exception {
+	public boolean createMapping_for_cars(int floor_no,int no_of_cars) throws Exception {
 		connectionStartUp();
+		int j = 0;
 		for(int i=1;i<=no_of_cars;i++){
-			stmt.executeQuery("insert into car_master values("+floor_no+",'C"+i+"','N','')");	
+			j = stmt.executeUpdate("insert into car_master values("+floor_no+",'C"+i+"','N','')");
+		}
+		if(j>0){
+			return true;
 		}
 		closeConnection();
+		return false;
 	}
 
 
-	public void createMapping_for_heavy_vehicles(int floor_no,int no_of_hvs) throws Exception {
+	public boolean createMapping_for_heavy_vehicles(int floor_no,int no_of_hvs) throws Exception {
 		connectionStartUp();
+		int j = 0;
 		for(int i=1;i<=no_of_hvs;i++){
-			stmt.executeQuery("insert into hv_master values("+floor_no+",'T"+i+"','N','')");	
+			j = stmt.executeUpdate("insert into hv_master values("+floor_no+",'T"+i+"','N','')");	
+		}
+		if(j>0){
+			return true;
 		}
 		closeConnection();
+		return false;
 	}
 
 	@SuppressWarnings({ "unchecked", "unchecked" })
 	public HashMap<Integer, List> getAvailabilty() throws Exception {
 		connectionStartUp();
 		rs = stmt.executeQuery("select floor_no from parking_master");
-//		list_bike = new ArrayList<Bike_master>();
-//		list_car = new ArrayList<Car_master>();
-//		list_hv = new ArrayList<HV_master>();
+		//		list_bike = new ArrayList<Bike_master>();
+		//		list_car = new ArrayList<Car_master>();
+		//		list_hv = new ArrayList<HV_master>();
 		//		result_list = new ArrayList();
-		List master_list = new ArrayList();
+//		List master_list = new ArrayList();
 		HashMap<Integer, List> map = new HashMap<Integer, List>();
 		while(rs.next())
 		{
@@ -147,7 +166,7 @@ public class ParkingDaoImpl implements ParkingDao{
 				rs1 = stmt.executeQuery("select floor_id,parking_bay,parked from bike_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs1.next()) {
 					if(rs1.getString("parked").equalsIgnoreCase("N")){
-						
+
 						Bike_master bike_master = new Bike_master();
 						bike_master.setFloor_id(rs1.getInt("floor_id"));
 						bike_master.setParking_bay(rs1.getString("parking_bay"));
@@ -158,7 +177,7 @@ public class ParkingDaoImpl implements ParkingDao{
 				rs2 = stmt.executeQuery("select floor_id,parking_bay,parked from car_master where floor_id ="+rs.getInt("floor_no")+"");
 				while (rs2.next()) {
 					if(rs2.getString("parked").equalsIgnoreCase("N")){
-						
+
 						Car_master car_master = new Car_master();
 						car_master.setFloor_id(rs2.getInt("floor_id"));
 						car_master.setParking_bay(rs2.getString("parking_bay"));
@@ -181,8 +200,8 @@ public class ParkingDaoImpl implements ParkingDao{
 				result_list.add(list_car);
 				result_list.add(list_hv);
 
-//				master_list.add(result_list);
-				
+				//				master_list.add(result_list);
+
 				map.put(rs.getInt("floor_no"), result_list);
 			}
 		}
@@ -190,7 +209,7 @@ public class ParkingDaoImpl implements ParkingDao{
 		return map;
 	}
 
-	public List getOverview() throws Exception {
+	public List<ParkingMaster> getOverview() throws Exception {
 		List<ParkingMaster> pList = new ArrayList<ParkingMaster>();
 		connectionStartUp();
 		rs = stmt.executeQuery("select * from parking_master");
@@ -294,18 +313,58 @@ public class ParkingDaoImpl implements ParkingDao{
 		return null;
 	}
 
-	public void remove(int floor_id) {
+	public boolean remove(int floor_id) {
 		try{
 			connectionStartUp();
-			stmt.executeQuery("delete from bike_master where floor_id="+floor_id+"");
-			stmt.executeQuery("delete from car_master where floor_id="+floor_id+"");
-			stmt.executeQuery("delete from hv_master where floor_id="+floor_id+"");
-			stmt.executeQuery("delete from parking_master where floor_no="+floor_id+"");
+			int flag1 = stmt.executeUpdate("delete from bike_master where floor_id="+floor_id+"");
+			int flag2 = stmt.executeUpdate("delete from car_master where floor_id="+floor_id+"");
+			int flag3 = stmt.executeUpdate("delete from hv_master where floor_id="+floor_id+"");
+			int flag4 = stmt.executeUpdate("delete from parking_master where floor_no="+floor_id+"");
+
+			if(flag1>0 && flag2>0 && flag3>0 && flag4>0){
+				return true;
+			}
 		}catch(SQLException e){
 			rollback();
 		}finally{
 			closeConnection();
 		}
+		return false;
+	}
 
+	public boolean isParkingVacant(int floor_no) {
+		try {
+			connectionStartUp();
+			ResultSet resultSet = stmt.executeQuery("select count(*) from bike_master where floor_id="+floor_no+" and parked='Y'");
+			if(resultSet.next()){
+				int rows = resultSet.getInt(1);
+				if(rows>0){
+					return false;
+				}
+			}
+
+			resultSet = stmt.executeQuery("select count(*) from car_master where floor_id="+floor_no+" and parked='Y'");
+			if(resultSet.next()){
+				int rows = resultSet.getInt(1);
+				if(rows>0){
+					return false;
+				}
+			}
+
+			resultSet = stmt.executeQuery("select count(*) from hv_master where floor_id="+floor_no+" and parked='Y'");
+			if(resultSet.next()){
+				int rows = resultSet.getInt(1);
+				if(rows>0){
+					return false;
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+
+		}
+
+		return true;
 	}
 }

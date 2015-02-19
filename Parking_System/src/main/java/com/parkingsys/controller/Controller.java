@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.parkingsys.service.ParkingService;
 import com.parkingsys.service.ParkingServiceImpl;
+import com.parkingsys.vo.ParkingMaster;
 
 public class Controller {
 
@@ -18,15 +19,15 @@ public class Controller {
 		parkingService = new ParkingServiceImpl();
 	}
 
-	public void AddZone(int bike_count,int car_count,int hv_count) throws Exception {
-		parkingService.addLevel(bike_count,car_count,hv_count);
+	public boolean AddZone(int bike_count,int car_count,int hv_count) throws Exception {
+		return parkingService.addLevel(bike_count,car_count,hv_count);
 	}
 
 	public HashMap<Integer, List> showAvailability() throws Exception {
 		return parkingService.availabilty();
 	}
 
-	public List showOverview() throws Exception {
+	public List<ParkingMaster> showOverview() throws Exception {
 		return parkingService.getOverview();
 	}
 
@@ -38,7 +39,7 @@ public class Controller {
 		return parkingService.locateVehcile(reg_no);
 	}
 
-	public void remove() {
-		parkingService.remove();
+	public boolean remove() {
+		return parkingService.remove();
 	}
 }

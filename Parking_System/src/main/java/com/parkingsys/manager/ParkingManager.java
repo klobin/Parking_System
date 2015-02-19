@@ -1,21 +1,21 @@
 package com.parkingsys.manager;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.parkingsys.vo.ParkingMaster;
 
 public interface ParkingManager {
 
-	void add() throws Exception;
+	boolean add(int bike_count, int car_count, int hv_count) throws Exception;
 	
 	List<ParkingMaster> overview() throws Exception;
 	
-	List avilabilty() throws Exception;
+	HashMap<Integer, List> availabilty() throws Exception;
 	
-	void park(int floor_no, String parking_bay, String reg_no) throws Exception;
+	boolean manage_Parking(String floor_no, String parkin_bay, String reg_no, String vehicle_type,boolean park_unpark_flag) throws Exception;
 	
-	Object locate(String reg_no) throws Exception;
-	
-	void Unpark(String reg_no) throws Exception;
-	
+	List locate(String reg_no) throws Exception;
+
+	boolean remove() throws Exception;
 }

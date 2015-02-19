@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.parkingsys.dao.ParkingDao;
 import com.parkingsys.dao.ParkingDaoImpl;
+import com.parkingsys.vo.ParkingMaster;
 
 public class ParkingServiceImpl implements ParkingService {
 
@@ -22,21 +23,25 @@ public class ParkingServiceImpl implements ParkingService {
 		parkingDao = new ParkingDaoImpl();
 	}
 
-	public void addLevel(int bike_count, int car_count, int hv_count) throws Exception {
+	public boolean addLevel(int bike_count, int car_count, int hv_count) throws Exception {
 		int floor_to_added = 0 ;
 		int existing_floor_no = parkingDao.checkNoOffloors();
 		floor_to_added = existing_floor_no + 1;
-		parkingDao.addFloor(floor_to_added,bike_count,car_count,hv_count);		
-		parkingDao.createMapping_for_bikes(floor_to_added,bike_count);
-		parkingDao.createMapping_for_cars(floor_to_added,car_count);
-		parkingDao.createMapping_for_heavy_vehicles(floor_to_added,hv_count);
+		boolean flag1 = parkingDao.addFloor(floor_to_added,bike_count,car_count,hv_count);		
+		boolean flag2 = parkingDao.createMapping_for_bikes(floor_to_added,bike_count);
+		boolean flag3 = parkingDao.createMapping_for_cars(floor_to_added,car_count);
+		boolean flag4 = parkingDao.createMapping_for_heavy_vehicles(floor_to_added,hv_count);
+		if(flag1 && flag2 && flag3 && flag4){
+			return true;
+		}
+		return false;
 	}
 
 	public HashMap<Integer, List> availabilty() throws Exception {
 		return parkingDao.getAvailabilty();
 	}
 
-	public List getOverview() throws Exception {
+	public List<ParkingMaster> getOverview() throws Exception {
 
 		return parkingDao.getOverview();
 	}
@@ -46,11 +51,16 @@ public class ParkingServiceImpl implements ParkingService {
 	public List locateVehcile(String reg_no) {
 		return parkingDao.locateVehicle(reg_no);
 	}
-	public void remove() {
+	public boolean remove() {
+		boolean deleteFlag = false;
+		boolean checkParkingOnFloor = false;
 		try {
 			int no = parkingDao.checkNoOffloors();
 			if(no!=0){
-				parkingDao.remove(no);
+				checkParkingOnFloor = parkingDao.isParkingVacant(no);
+				if(checkParkingOnFloor){
+					deleteFlag = parkingDao.remove(no);
+				}
 			}else{
 				System.out.println("\n************************************\n");
 				System.out.println(" WARNING -> All zones removed !\n");
@@ -59,5 +69,6 @@ public class ParkingServiceImpl implements ParkingService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return deleteFlag;
 	}
 }

@@ -1,40 +1,51 @@
 package com.parkingsys.manager;
 
+import java.util.HashMap;
 import java.util.List;
 
+import com.parkingsys.service.ParkingService;
+import com.parkingsys.service.ParkingServiceImpl;
 import com.parkingsys.vo.ParkingMaster;
 
-public class ParkingManagerImpl {
+public class ParkingManagerImpl implements ParkingManager {
 
-	public void add() throws Exception {
-		// TODO Auto-generated method stub
-		
+	private ParkingService parkingService;
+	
+	public ParkingManagerImpl() throws Exception {
+		init();
+	}
+
+	public  void init() throws Exception {
+		parkingService = new ParkingServiceImpl();
+	}
+
+	
+	public boolean add(int bike_count, int car_count, int hv_count)
+			throws Exception {
+		return parkingService.addLevel(bike_count,car_count,hv_count);
 	}
 
 	public List<ParkingMaster> overview() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return parkingService.getOverview();
 	}
 
-	public List avilabilty() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<Integer, List> availabilty() throws Exception {
+		return parkingService.availabilty();
 	}
 
-	public void park(int floor_no, String parking_bay, String reg_no)
+	public boolean manage_Parking(String floor_no, String parkin_bay,
+			String reg_no, String vehicle_type, boolean park_unpark_flag)
 			throws Exception {
-		// TODO Auto-generated method stub
-		
+		return parkingService.manage_Parking(floor_no,parkin_bay,reg_no,vehicle_type,park_unpark_flag);
 	}
 
-	public Object locate(String reg_no) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List locate(String reg_no) throws Exception {
+		return parkingService.locateVehcile(reg_no);
 	}
 
-	public void Unpark(String reg_no) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public boolean remove() throws Exception {
+		return parkingService.remove();
 	}
+
 
 }

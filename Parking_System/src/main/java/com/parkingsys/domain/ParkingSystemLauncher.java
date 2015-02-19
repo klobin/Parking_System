@@ -46,7 +46,11 @@ public class ParkingSystemLauncher {
 			switch (i) {
 			case 1:
 				scan_data(addreq, input);
-				controller.AddZone(addreq[0], addreq[1], addreq[2]);
+				boolean confirmAdded = controller.AddZone(addreq[0], addreq[1], addreq[2]);
+				if (confirmAdded) {
+					System.out.println();
+					System.out.println("Floor Added successfully.....!");
+				}
 				break;
 			case 2:
 				displayList(controller);
@@ -58,7 +62,7 @@ public class ParkingSystemLauncher {
 				parking_details(parking_detail, input);
 				Boolean bayCheck = controller.manage_Parking(parking_detail[1],parking_detail[2],parking_detail[0],parking_detail[3],true);
 				if(!bayCheck){
-					System.out.println("Given parking location is not vacant !");
+					System.out.println("\nGiven parking location is not vacant !");
 				}
 				break;
 			case 5:
@@ -73,7 +77,12 @@ public class ParkingSystemLauncher {
 				}
 				break;
 			case 7:
-				controller.remove();
+				boolean checkFlag = controller.remove();
+				if(checkFlag){
+					System.out.println("Floor removed succesfully.....!!!");
+				}else{
+					System.out.println("\n Floor can not be removed, please check is there any vehicle parked on the given floor ???");
+				}
 				break;
 			case 8:
 				System.out.println("Thanks for parking your vehicle :)");
@@ -235,7 +244,7 @@ public class ParkingSystemLauncher {
 
 	
 	private static void displayList(Controller controller) throws Exception {
-		List result = controller.showOverview();
+		List<ParkingMaster> result = controller.showOverview();
 		for (int j = 0;j<=(result.size()-1);j++) {
 
 			ParkingMaster parkingMaster = (ParkingMaster) result.get(j);
@@ -244,7 +253,7 @@ public class ParkingSystemLauncher {
 			System.out.println("No of bikes: "+parkingMaster.getCap_bike());
 			System.out.println("No of cars: "+parkingMaster.getCap_car());
 			System.out.println("no of heavy vehicles: "+parkingMaster.getCap_heavyVehicle());
-			System.out.println("*************************************************\n");
+			System.out.println("***********************************************\n");
 		}
 	}
 
