@@ -60,7 +60,7 @@ public class ParkingSystemLauncher {
 				break;
 			case 4:
 				parking_details(parking_detail, input);
-				Boolean bayCheck = controller.manage_Parking(parking_detail[1],parking_detail[2],parking_detail[0],parking_detail[3],true);
+				Boolean bayCheck = controller.manage_Parking(Integer.parseInt(parking_detail[1]),parking_detail[2],parking_detail[0],parking_detail[3],true);
 				if(!bayCheck){
 					System.out.println("\nGiven parking location is not vacant !");
 				}
@@ -71,7 +71,7 @@ public class ParkingSystemLauncher {
 				break;
 			case 6:
 				getVehicleDetails(parking_detail, input);
-				Boolean isValidVehicle = controller.manage_Parking(parking_detail[1],parking_detail[2],parking_detail[0],parking_detail[3],false);
+				Boolean isValidVehicle = controller.manage_Parking(Integer.parseInt(parking_detail[1]),parking_detail[2],parking_detail[0],parking_detail[3],false);
 				if(!isValidVehicle){
 					System.out.println("\nPlease come out of hangover, your vehicle is not at the given location !");
 				}
@@ -161,40 +161,6 @@ public class ParkingSystemLauncher {
 		parking_detail[2] = input.next();
 	}
 
-	/*private static void availability(Controller controller) throws Exception {
-		List result_list = controller.showAvailability();
-		for (int i = 0; i <=(result_list.size()-1); i++) {
-			List intermident_list = (List) result_list.get(0);
-			for(int j = 0;j <= 2;j++){
-				if(j == 0){
-					List<Bike_master> bike_list = (List<Bike_master>) intermident_list.get(j);
-					System.out.println("***********************************************\n");
-					for (Iterator iterator = bike_list.iterator(); iterator	.hasNext();) {
-						Bike_master bike_master = (Bike_master) iterator.next();
-						System.out.print(" "+bike_master.getParking_bay()+" ");
-					}
-					System.out.println("\n");
-				}
-				if(j == 1){
-					List<Car_master> car_list = (List<Car_master>) intermident_list.get(j);
-					for (Iterator iterator = car_list.iterator(); iterator	.hasNext();) {
-						Car_master car_master = (Car_master) iterator.next();
-						System.out.print(" "+car_master.getParking_bay()+" ");
-					}
-					System.out.println("\n");
-				}
-				if(j == 2){
-					List<HV_master> hv_list = (List<HV_master>) intermident_list.get(j);
-					for (Iterator iterator = hv_list.iterator(); iterator	.hasNext();) {
-						HV_master hv_master = (HV_master) iterator.next();
-						System.out.print(" "+hv_master.getParking_bay()+" ");
-					}
-					System.out.println("\n***********************************************\n");
-				}
-			}
-		}
-	}
-*/
 	
 	private static void availability(Controller controller) throws Exception {
 		

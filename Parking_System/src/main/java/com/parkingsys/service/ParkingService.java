@@ -14,7 +14,7 @@ public interface ParkingService {
 
 	List<ParkingMaster> getOverview() throws Exception;
 
-	boolean manage_Parking(String floor_no, String parkin_bay, String reg_no, String vehicle_type, boolean park_unpark_flag);
+	boolean manage_Parking(int floor_no, String parking_bay, String reg_no, String vehicle_type, boolean park_unpark_flag);
 
 	List locateVehcile(String reg_no);
 

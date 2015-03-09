@@ -28,12 +28,8 @@ public class ParkingDaoImpl implements ParkingDao{
 	private Bike_master bike_master = null;
 	private Car_master car_master = null;
 	private HV_master hv_master = null;
-	//	private List<Bike_master> list_bike = null;
-	//	private List<Car_master> list_car = null;
-	//	private List<HV_master> list_hv = null;
-	//	private List result_list = null;
 
-
+	
 	private void connectionStartUp() {
 		connectkon = new Connectkon();
 		try{
@@ -147,11 +143,7 @@ public class ParkingDaoImpl implements ParkingDao{
 	public HashMap<Integer, List> getAvailabilty() throws Exception {
 		connectionStartUp();
 		rs = stmt.executeQuery("select floor_no from parking_master");
-		//		list_bike = new ArrayList<Bike_master>();
-		//		list_car = new ArrayList<Car_master>();
-		//		list_hv = new ArrayList<HV_master>();
-		//		result_list = new ArrayList();
-//		List master_list = new ArrayList();
+		
 		HashMap<Integer, List> map = new HashMap<Integer, List>();
 		while(rs.next())
 		{
@@ -226,7 +218,7 @@ public class ParkingDaoImpl implements ParkingDao{
 		return pList;
 	}
 
-	public boolean manage_Parking(String floor_no, String parking_bay, String reg_no,String vehicle_type, boolean park_unpark_flag) {
+	public boolean manage_Parking(int floor_no, String parking_bay, String reg_no,String vehicle_type, boolean park_unpark_flag) {
 		Boolean return_flag = false;
 		connectionStartUp();
 		try{

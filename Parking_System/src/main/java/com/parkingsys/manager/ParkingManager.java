@@ -13,7 +13,7 @@ public interface ParkingManager {
 	
 	HashMap<Integer, List> availabilty() throws Exception;
 	
-	boolean manage_Parking(String floor_no, String parkin_bay, String reg_no, String vehicle_type,boolean park_unpark_flag) throws Exception;
+	boolean manage_Parking(int floor_no, String parkin_bay, String reg_no, String vehicle_type,boolean park_unpark_flag) throws Exception;
 	
 	List locate(String reg_no) throws Exception;
 

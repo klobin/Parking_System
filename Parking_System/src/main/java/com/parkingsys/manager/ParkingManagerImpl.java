@@ -33,7 +33,7 @@ public class ParkingManagerImpl implements ParkingManager {
 		return parkingService.availabilty();
 	}
 
-	public boolean manage_Parking(String floor_no, String parkin_bay,
+	public boolean manage_Parking(int floor_no, String parkin_bay,
 			String reg_no, String vehicle_type, boolean park_unpark_flag)
 			throws Exception {
 		return parkingService.manage_Parking(floor_no,parkin_bay,reg_no,vehicle_type,park_unpark_flag);
