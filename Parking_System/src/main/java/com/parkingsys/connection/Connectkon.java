@@ -1,5 +1,6 @@
 package com.parkingsys.connection;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -11,23 +12,28 @@ public class Connectkon {
 	private Connection con = null;
 	private InputStream input;
 	Properties properties = new Properties();
-	private String driver;
-	private String connectionURL;
+	private String driver="";
+	private String connectionURL="";
 
 	public Connection giveMeConnection() throws SQLException, IOException{  
 		try{
 //			input = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
-//			properties.load(input);
-//			driver = properties.getProperty("driver");
-//			connectionURL = properties.getProperty("url");
+			input = getClass().getClassLoader().getResourceAsStream("properties/config.properties");
+			if(input!=null){
+				properties.load(input);
+			}else{
+				throw new FileNotFoundException("property file: config properties not found in the classpath !");
+			}
+			driver = properties.getProperty("driver");
+			connectionURL = properties.getProperty("url");
 
-			Class.forName("org.hsqldb.jdbcDriver");  
-			con=DriverManager.getConnection("jdbc:hsqldb:file:C:/Users/g97158/Documents/TestDb", "SA", "");
+			Class.forName(driver);  
+			con=DriverManager.getConnection(connectionURL);
 
-//			Class.forName("oracle.jdbc.driver.OracleDriver");  
-//			con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","system");
+			//			Class.forName("oracle.jdbc.driver.OracleDriver");  
+			//			con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","system");
 
-			
+
 			if(con!=null)
 			{
 				return con;
